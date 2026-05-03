@@ -1,0 +1,8 @@
+*.exe
+*.o
+*.a
+*.out
+*.depend
+*.layout
+.DS_Store
+Thumbs.db
