@@ -302,7 +302,36 @@ StationaryHub-Inventory-System/
 ├── .gitignore
 └── README.md
 ```
+## Sample Output
+Processing orders from file: orders.txt
 
+Processing Order ID: 1 | Thread ID: 8670141377090704656 at Warehouse Gauteng
+  [SUCCESS] Product ID: 101 | Qty: 5
+  [SUCCESS] Product ID: 102 | Qty: 3
+
+Processing Order ID: 2 | Thread ID: 18137369640724998020 at Warehouse Gauteng
+  [SUCCESS] Product ID: 101 | Qty: 8
+  [SUCCESS] Product ID: 103 | Qty: 10
+
+Processing Order ID: 3 | Thread ID: 1230235464250880600 at Warehouse Western Cape
+  [SUCCESS] Product ID: 104 | Qty: 5
+  [SUCCESS] Product ID: 105 | Qty: 2
+  
+Processing Order ID: 14 | Thread ID: 17519169083552770373 at Warehouse Mpumalanga
+  [FAILED]  Product ID: 115 | Qty: 999 (Insufficient stock or missing)
+
+Processing Order ID: 15 | Thread ID: 7878728155988826942 at Warehouse North West
+  [FAILED]  Product ID: 101 | Qty: 10 (Insufficient stock or missing)
+  [SUCCESS] Product ID: 102 | Qty: 20
+
+Processing Order ID: 17 | Thread ID: 12034445389369918683 at Warehouse Northern Cape
+  [SUCCESS] Product ID: 107 | Qty: 5
+  [SUCCESS] Product ID: 109 | Qty: 80
+
+Processing Order ID: 18 | Thread ID: 3834309123136518406 at Warehouse Northern Cape
+  [FAILED]  Product ID: 107 | Qty: 999 (Insufficient stock or missing)
+  
+Orders processed successfully!
 ---
 
 > COMP315 — University of KwaZulu-Natal | 2026
