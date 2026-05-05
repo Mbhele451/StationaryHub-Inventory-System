@@ -37,15 +37,15 @@ The project demonstrates:
 
 ## Team Members
 
-| Name | Role |
-| :--- | :--- |
-| Bandile Mhlambu | Project Manager & Concurrency Lead |
-| Sbonelo Ntshangase | STL & Data Structures |
-| Lerato Mbhele | Core Software, UI Design & Memory Management |
-| Bongani Ntshumayelo | Core Software Implementation |
-| Lindokuhle Machangu | Unit Testing & Logic Implementation |
-| Andile Mthembu | Documentation & Report Lead |
-| Sthembiso Mchunu | Class & System Architecture Design |
+| Name | Role | Primary Class / File | % Contribution |
+|------|------|----------------------|----------------|
+| Bandile Mhlambu | Project Manager & Concurrency Lead | `InventoryManagementSystem.cpp` — `processOrders()`, thread loop, `consoleMutex` | 14.28% |
+| Sbonelo Ntshangase | STL & Data Structures | `Warehouse.cpp` — `sortAndDisplay()`, `std::map` inventory, `std::find_if` | 14.28% |
+| Lerato Mbhele | UI Design & Memory Management | `Main.cpp` — full CLI menu, all handler functions, `shared_ptr` enforcement | 14.28% |
+| Bongani Ntshumayelo | Core Software Implementation | `Warehouse.cpp` — `addProduct()`, `removeProduct()`, `decreaseStock()`, `displayAllProducts()` | 14.28% |
+| Lindokuhle Machangu | Unit Testing & Logic Implementation | `Order.cpp`, `OrderItem.cpp`, `orders.txt` test design, stock rejection logic | 14.28% |
+| Andile Mthembu | Documentation & Report Lead | `Product.cpp`, `TaxableProduct.cpp`, report compilation and editing | 14.28% |
+| Sthembiso Mchunu | Class & System Architecture Design | `DiscountProduct.cpp`, `BulkProduct.cpp`, UML diagram, six-layer architecture | 14.28% |
 
 ---
 
