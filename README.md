@@ -165,7 +165,7 @@ OrderItem
 ### Cloning the Repository
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/StationaryHub-Inventory-System.git
+git clone https://github.com/Mbhele451/StationaryHub-Inventory-System.git
 cd StationaryHub-Inventory-System
 ```
 
