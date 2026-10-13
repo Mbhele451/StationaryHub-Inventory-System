@@ -1,9 +1,2 @@
-#include "Product.h"
-#include <iostream>
-using namespace std;
-
-void Product::display() const {
-    cout << "ID: " << productID
-              << " | Name: " << name
-              << " | Price: " << basePrice<< "\n";
-}
+// MOVED: Product implementation moved to src/domain/Product.cpp in refactor/structure branch
+// See include/domain/Product.h and src/domain/Product.cpp
