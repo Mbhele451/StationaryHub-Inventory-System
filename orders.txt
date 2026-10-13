@@ -1,2 +1,0 @@
-# MOVED: orders.txt has been moved to data/orders.txt in this branch
-# Please use data/orders.txt

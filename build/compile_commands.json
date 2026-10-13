@@ -1,0 +1,62 @@
+[
+{
+  "directory": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/build",
+  "command": "/usr/bin/g++  -I/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/include -g -std=gnu++17 -o CMakeFiles/StationaryHub.dir/src/app/main.cpp.o -c /home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/app/main.cpp",
+  "file": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/app/main.cpp",
+  "output": "CMakeFiles/StationaryHub.dir/src/app/main.cpp.o"
+},
+{
+  "directory": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/build",
+  "command": "/usr/bin/g++  -I/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/include -g -std=gnu++17 -o CMakeFiles/StationaryHub.dir/src/domain/Product.cpp.o -c /home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/domain/Product.cpp",
+  "file": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/domain/Product.cpp",
+  "output": "CMakeFiles/StationaryHub.dir/src/domain/Product.cpp.o"
+},
+{
+  "directory": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/build",
+  "command": "/usr/bin/g++  -I/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/include -g -std=gnu++17 -o CMakeFiles/StationaryHub.dir/src/domain/TaxableProduct.cpp.o -c /home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/domain/TaxableProduct.cpp",
+  "file": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/domain/TaxableProduct.cpp",
+  "output": "CMakeFiles/StationaryHub.dir/src/domain/TaxableProduct.cpp.o"
+},
+{
+  "directory": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/build",
+  "command": "/usr/bin/g++  -I/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/include -g -std=gnu++17 -o CMakeFiles/StationaryHub.dir/src/domain/DiscountProduct.cpp.o -c /home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/domain/DiscountProduct.cpp",
+  "file": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/domain/DiscountProduct.cpp",
+  "output": "CMakeFiles/StationaryHub.dir/src/domain/DiscountProduct.cpp.o"
+},
+{
+  "directory": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/build",
+  "command": "/usr/bin/g++  -I/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/include -g -std=gnu++17 -o CMakeFiles/StationaryHub.dir/src/domain/BulkProduct.cpp.o -c /home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/domain/BulkProduct.cpp",
+  "file": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/domain/BulkProduct.cpp",
+  "output": "CMakeFiles/StationaryHub.dir/src/domain/BulkProduct.cpp.o"
+},
+{
+  "directory": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/build",
+  "command": "/usr/bin/g++  -I/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/include -g -std=gnu++17 -o CMakeFiles/StationaryHub.dir/src/domain/Warehouse.cpp.o -c /home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/domain/Warehouse.cpp",
+  "file": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/domain/Warehouse.cpp",
+  "output": "CMakeFiles/StationaryHub.dir/src/domain/Warehouse.cpp.o"
+},
+{
+  "directory": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/build",
+  "command": "/usr/bin/g++  -I/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/include -g -std=gnu++17 -o CMakeFiles/StationaryHub.dir/src/system/OrderItem.cpp.o -c /home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/system/OrderItem.cpp",
+  "file": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/system/OrderItem.cpp",
+  "output": "CMakeFiles/StationaryHub.dir/src/system/OrderItem.cpp.o"
+},
+{
+  "directory": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/build",
+  "command": "/usr/bin/g++  -I/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/include -g -std=gnu++17 -o CMakeFiles/StationaryHub.dir/src/system/Order.cpp.o -c /home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/system/Order.cpp",
+  "file": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/system/Order.cpp",
+  "output": "CMakeFiles/StationaryHub.dir/src/system/Order.cpp.o"
+},
+{
+  "directory": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/build",
+  "command": "/usr/bin/g++  -I/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/include -g -std=gnu++17 -o CMakeFiles/StationaryHub.dir/src/system/InventoryManagementSystem.cpp.o -c /home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/system/InventoryManagementSystem.cpp",
+  "file": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/system/InventoryManagementSystem.cpp",
+  "output": "CMakeFiles/StationaryHub.dir/src/system/InventoryManagementSystem.cpp.o"
+},
+{
+  "directory": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/build",
+  "command": "/usr/bin/g++  -I/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/include -g -std=gnu++17 -o CMakeFiles/StationaryHub.dir/src/system/OrderGenerator.cpp.o -c /home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/system/OrderGenerator.cpp",
+  "file": "/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/src/system/OrderGenerator.cpp",
+  "output": "CMakeFiles/StationaryHub.dir/src/system/OrderGenerator.cpp.o"
+}
+]

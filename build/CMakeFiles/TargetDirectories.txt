@@ -1,0 +1,3 @@
+/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/build/CMakeFiles/StationaryHub.dir
+/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/build/CMakeFiles/edit_cache.dir
+/home/ainz-ool-gown/C++/StationaryHub-Inventory-System/build/CMakeFiles/rebuild_cache.dir
