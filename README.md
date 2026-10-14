@@ -3,7 +3,31 @@
 > COMP315 Semester Project | 2026  
 > University of KwaZulu-Natal
 
-This project is a C++ console application that simulates a multi-threaded inventory and trading system for a stationery supply chain. It demonstrates object-oriented design, thread-safe order processing, and a modular CMake-based build flow.
+Quick Start
+-----------
+
+1) Clone the repo and configure with CMake:
+
+```bash
+git clone https://github.com/Mbhele451/StationaryHub-Inventory-System.git
+cd StationaryHub-Inventory-System
+cmake -S . -B build
+cmake --build build
+```
+
+2) Run the program (ensure `orders.txt` is available in the working directory):
+
+Linux / macOS:
+
+```bash
+./build/bin/StationaryHub
+```
+
+Windows (PowerShell):
+
+```powershell
+.\build\bin\StationaryHub.exe
+```
 
 ---
 
@@ -42,9 +66,6 @@ StationaryHub-Inventory-System/
 │       ├── OrderItem.cpp
 │       └── OrderGenerator.cpp
 ├── include/
-│   ├── app/
-│   ├── domain/
-│   └── system/
 ├── data/
 ├── docs/
 ├── tests/
@@ -53,291 +74,123 @@ StationaryHub-Inventory-System/
 └── ...
 ```
 
-The project is now configured to use a proper CMake build and does not need generated files committed to the repository. Build artifacts such as `build/`, `CMakeCache.txt`, `CMakeFiles/`, and `compile_commands.json` are ignored.
-
 ---
 
-## Prerequisites
+## Prerequisites (Quick OS-specific install commands)
 
-### Required
+Windows
 
-- CMake 3.16 or newer
-- C++ compiler with C++17 support
-  - Windows: MinGW-w64 or MSYS2 GCC
-  - Linux: GCC or Clang
-  - macOS: Xcode command line tools / Homebrew GCC
-- Git
+- Install MSYS2 or MinGW-w64 (GCC) and add the bin folder to PATH.
+- Install CMake from https://cmake.org/ or use `choco install cmake` if you use Chocolatey.
 
-### Recommended VS Code Extensions
-
-Install these in VS Code:
-
-- C/C++
-- CMake
-- CMake Tools
-
-Optional but useful:
-
-- C++ Extension Pack
-- Code Runner
-
-### Optional IDE
-
-- Code::Blocks with GCC compiler
-
----
-
-## Running the Project in VS Code
-
-### 1. Open the repository folder
-
-Open the project folder in VS Code.
-
-### 2. Install required extensions
-
-Go to Extensions and install:
-
-- `ms-vscode.cpptools`
-- `ms-vscode.cmake-tools`
-- `twxs.cmake`
-
-### 3. Configure with CMake
-
-From VS Code Terminal:
-
-```bash
-cmake -S . -B build
-```
-
-Or use the VS Code command palette:
-
-- `CMake: Configure`
-- Select a kit/compiler if prompted
-
-### 4. Build the project
-
-```bash
-cmake --build build
-```
-
-Or from the command palette:
-
-- `CMake: Build`
-
-### 5. Run the executable
-
-The binary is generated in:
-
-```text
-build/bin/StationaryHub
-```
-
-On Linux/macOS:
-
-```bash
-./build/bin/StationaryHub
-```
-
-On Windows:
+Example (MSYS2/MINGW on Windows):
 
 ```powershell
-.\build\bin\StationaryHub.exe
+# For MSYS2 (Run in MSYS2 shell)
+pacman -Syu
+pacman -S mingw-w64-x86_64-toolchain cmake
 ```
 
-> Important: `orders.txt` must be available in the working directory when the program runs, or the application may fail to load orders.
-
----
-
-## Running the Project from the Terminal
+Linux (Ubuntu/Debian)
 
 ```bash
-cmake -S . -B build
-cmake --build build
-./build/bin/StationaryHub
+sudo apt update
+sudo apt install -y build-essential cmake git
 ```
 
-If you are on Windows PowerShell:
-
-```powershell
-cmake -S . -B build
-cmake --build build
-.\build\bin\StationaryHub.exe
-```
-
----
-
-## Running the Project in Code::Blocks
-
-### Option A: Use the included project file
-
-1. Open the project in Code::Blocks.
-2. Select the correct compiler (GCC / MinGW).
-3. Build the project using `Build -> Build and Run`.
-4. Make sure `orders.txt` is in the same folder as the executable when running.
-
-### Option B: Use CMake with Code::Blocks
-
-If the generated project file is not working correctly:
-
-1. Generate a Code::Blocks project with CMake:
+macOS
 
 ```bash
-cmake -S . -B build -G "CodeBlocks - Unix Makefiles"
-```
-
-or on Windows:
-
-```powershell
-cmake -S . -B build -G "CodeBlocks - MinGW Makefiles"
-```
-
-2. Open the generated project in Code::Blocks.
-
-> The project is designed to build with CMake, which is the preferred workflow for modern IDEs.
-
----
-
-## Troubleshooting
-
-### 1. `g++` / compiler not found
-
-Problem:
-- Terminal says `g++: command not found`
-- VS Code says no compiler is configured
-
-Fix:
-- Install a C++ compiler and restart the terminal
-- On Linux:
-
-```bash
-sudo apt install build-essential
-```
-
-- On Windows:
-  - Install MinGW-w64 or MSYS2
-  - Add the compiler bin directory to `PATH`
-
-- On macOS:
-
-```bash
+# Install Xcode Command Line Tools
 xcode-select --install
-```
-
----
-
-### 2. `cmake: command not found`
-
-Fix:
-- Install CMake from the official CMake website or package manager
-- Restart VS Code after installation
-
-Examples:
-
-```bash
-sudo apt install cmake
-```
-
-or on macOS with Homebrew:
-
-```bash
+# Optionally use Homebrew for cmake
 brew install cmake
 ```
 
 ---
 
-### 3. IntelliSense errors in VS Code
+## Running the Project in VS Code (CMake Tools)
 
-Problem:
-- Header files cannot be found
-- `No such file or directory`
-- IntelliSense complains about includes
+This is the recommended development workflow.
 
-Fix:
-- Install the C/C++ extension
-- Reload the VS Code window
-- Ensure the project is opened at the repository root
-- Confirm the compiler is configured in VS Code
-- Use CMake configure/build so `compile_commands.json` gets generated automatically
-
-The project already sets CMake to generate compile commands:
-
-```cmake
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-```
-
-This helps VS Code IntelliSense and language servers understand the project correctly.
-
----
-
-### 4. `orders.txt` not found at runtime
-
-Problem:
-- The program starts but immediately fails when loading orders
-
-Fix:
-- Run the executable from the project root or from a directory that contains `orders.txt`
-- Make sure the file exists in the repo root
-- If needed, copy it next to the built executable
-
-Example:
-
-```bash
-cp orders.txt build/bin/
-```
-
-Then run:
-
-```bash
-./build/bin/StationaryHub
-```
-
----
-
-### 5. Build/compile errors after changing source files
-
-Problem:
-- CMake says the project cannot build
-
-Fix:
-- Run:
+1. Open the repository folder in VS Code.
+2. Install the extensions: `C/C++`, `CMake Tools`, and `CMake` (see the README `Recommended VS Code Extensions`).
+3. Select a CMake kit (compiler) from the status bar (bottom-right). If none is shown, run `CMake: Scan for Kits`.
+4. Configure the project: use the command palette → `CMake: Configure` or run:
 
 ```bash
 cmake -S . -B build
+```
+
+5. Build with `CMake: Build` or run:
+
+```bash
 cmake --build build
 ```
 
-- Delete the `build/` folder if the configuration is stale:
+6. Run the executable. From the terminal run `./build/bin/StationaryHub` (or use the `Run` actions from CMake Tools).
 
-```bash
-rm -rf build
+Screenshots & step-by-step (recommended)
+
+- Add the following screenshots to `docs/images/` and commit them to the repo if you want visual help:
+  - `docs/images/vscode-select-kit.png` — show the kit selection menu in the status bar.
+  - `docs/images/vscode-cmake-configure.png` — show the command palette `CMake: Configure` running.
+  - `docs/images/vscode-cmake-build.png` — show the `CMake: Build` progress.
+  - `docs/images/vscode-debug-launch.png` — example of the Run/Debug configuration selection.
+
+Example screenshot markdown (placeholders):
+
+![Select CMake Kit](docs/images/vscode-select-kit.png)
+
+![CMake Configure](docs/images/vscode-cmake-configure.png)
+
+If you want, I can make and add these screenshots for you; you will need to provide them or allow me to generate them locally and upload (requires push of image files).
+
+Run/Debug configuration (optional)
+
+To enable running the built executable from VS Code's Run view, add a simple `launch.json` entry in `.vscode/launch.json`:
+
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run StationaryHub",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/bin/StationaryHub",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": true,
+      "MIMode": "gdb",
+      "miDebuggerPath": "/usr/bin/gdb"
+    }
+  ]
+}
 ```
 
-Then reconfigure.
+Notes:
+- Adjust `miDebuggerPath` and `MIMode` for your platform (Windows: use `miDebuggerPath` to point to `gdb.exe` or use the `cppvsdbg` debugger for MSVC).
+- `cwd` is set to the repository root so `orders.txt` is found when launching.
 
 ---
 
-### 6. Code::Blocks project errors
+## Using Code::Blocks
 
-Common causes:
-- Wrong compiler selected
-- Missing include directories
-- Wrong working directory
+The project includes a Code::Blocks `.cbp` file. Code::Blocks is optional—prefer the CMake workflow—but if you prefer Code::Blocks, open the project file and make sure the selected compiler matches your installed toolchain.
 
-Fix:
-- Set the compiler to GCC/MinGW
-- Confirm include paths include the `include` folder
-- Run from the project directory so `orders.txt` is found
-- Prefer the CMake workflow if Code::Blocks project files are outdated
+If you see missing include errors, verify the `include` folder is set in Project -> Build options -> Search directories.
 
 ---
 
-### 7. VS Code says `cannot open source file` or `IntelliSense` is broken
+## Troubleshooting (short)
 
-Fix:
-- Reopen the folder in VS Code
-- Ensure `src` and `include` are present in the workspace root
-- Run `CMake: Configure`
-- Reload the window after installing extensions
+- Compiler not found: install GCC/Clang and ensure `PATH` includes its `bin` folder.
+- CMake not found: install CMake and restart your terminal/VS Code.
+- IntelliSense issues: generate `compile_commands.json` with `set(CMAKE_EXPORT_COMPILE_COMMANDS ON)` (already set in this project) and point VS Code to it if necessary.
+- `orders.txt` not found at runtime: run the binary from repo root or copy `orders.txt` to `build/bin`.
 
 ---
 
@@ -361,8 +214,6 @@ Makefile
 *.layout
 ```
 
-This keeps the repository clean and avoids committing generated build files.
-
 ---
 
 ## How the Program Works
@@ -374,39 +225,6 @@ When the user selects the order-processing option, the system:
 3. Safely updates stock under mutex protection
 4. Prints the status of each order (`SUCCESS` or `FAILED`)
 5. Joins all threads before the program exits
-
-This demonstrates safe concurrent access to shared data and prevents inconsistent stock values.
-
----
-
-## Example Menu
-
-```text
-*****************************************
-*   INVENTORY MANAGEMENT SYSTEM MENU   *
-*****************************************
-*  --- Warehouse Operations ---        *
-*  1.  Add warehouse                   *
-*  2.  Remove warehouse                *
-*  3.  Display all warehouses          *
-*  --- Product Operations ---          *
-*  4.  Add product to warehouse        *
-*  5.  Remove product from warehouse   *
-*  6.  Search product in warehouse     *
-*  7.  Process Orders (Multi-thread)   *
-*  8.  Display all products            *
-*  9.  Sort products by price/qty      *
-*  0.  Exit                            *
-*****************************************
-```
-
----
-
-## Notes
-
-- The recommended build approach is CMake.
-- Code::Blocks support is available, but the CMake workflow is the most reliable across platforms.
-- The project is structured for modern C++17 compilation with thread support.
 
 ---
 
