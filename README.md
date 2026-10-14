@@ -1,209 +1,387 @@
 # StationaryHub — Multi-Threaded Real-Time Inventory & Trading System
 
-> **COMP315 Semester Project | 2026**  
+> COMP315 Semester Project | 2026  
 > University of KwaZulu-Natal
 
----
-
-## Table of Contents
-
-- [Project Overview](#project-overview)
-- [Team Members](#team-members)
-- [System Architecture](#system-architecture)
-- [Features](#features)
-- [Class Structure](#class-structure)
-- [Technologies Used](#technologies-used)
-- [Getting Started](#getting-started)
-- [How to Run](#how-to-run)
-- [Menu Options](#menu-options)
-- [Orders File Format](#orders-file-format)
-- [Concurrency Design](#concurrency-design)
-- [Memory Management](#memory-management)
-- [Project Structure](#project-structure)
+This project is a C++ console application that simulates a multi-threaded inventory and trading system for a stationery supply chain. It demonstrates object-oriented design, thread-safe order processing, and a modular CMake-based build flow.
 
 ---
 
 ## Project Overview
 
-StationaryHub is a console-based **multi-threaded inventory and trading system** written in C++. It simulates a real-world stationery supply chain across **nine South African province-based warehouses**, each managing its own product stock. The system processes customer orders **concurrently using std::thread**, with full mutex synchronization to prevent race conditions and ensure stock integrity under simultaneous load.
+StationaryHub models a network of warehouses across multiple South African provinces. Each warehouse stores products, handles stock updates, and processes incoming orders concurrently. The system is designed to demonstrate:
 
-The project demonstrates:
-- **Object-Oriented Programming** through a polymorphic product hierarchy
-- **STL containers and algorithms** including `std::map`, `std::vector`, `std::sort`, and `std::find_if`
-- **Thread-safe concurrency** using `std::mutex` and `std::lock_guard`
-- **Smart pointer memory management** with `std::shared_ptr` throughout
-
----
-
-## Team Members
-
-| Name | Role | Primary Class / File | % Contribution |
-|------|------|----------------------|----------------|
-| Bandile Mhlambu | Project Manager & Concurrency Lead | `InventoryManagementSystem.cpp` — `processOrders()`, thread loop, `consoleMutex` | 14.28% |
-| Sbonelo Ntshangase | STL & Data Structures | `Warehouse.cpp` — `sortAndDisplay()`, `std::map` inventory, `std::find_if` | 14.28% |
-| Lerato Mbhele | UI Design & Memory Management | `Main.cpp` — full CLI menu, all handler functions, `shared_ptr` enforcement | 14.28% |
-| Bongani Ntshumayelo | Core Software Implementation | `Warehouse.cpp` — `addProduct()`, `removeProduct()`, `decreaseStock()`, `displayAllProducts()` | 14.28% |
-| Lindokuhle Machangu | Unit Testing & Logic Implementation | `Order.cpp`, `OrderItem.cpp`, `orders.txt` test design, stock rejection logic | 14.28% |
-| Andile Mthembu | Documentation & Report Lead | `Product.cpp`, `TaxableProduct.cpp`, report compilation and editing | 14.28% |
-| Sthembiso Mchunu | Class & System Architecture Design | `DiscountProduct.cpp`, `BulkProduct.cpp`, UML diagram, six-layer architecture | 14.28% |
+- Object-oriented programming with a product hierarchy
+- Thread-safe order processing using `std::thread` and `std::mutex`
+- Use of STL containers such as `std::map` and `std::vector`
+- Smart pointer memory management via `std::shared_ptr`
+- A CMake-based build workflow for modern IDEs and terminals
 
 ---
 
-## System Architecture
+## Repository Structure
 
-The system is structured in six distinct layers, with communication flowing strictly downward:
-
-```
-┌─────────────────────────────────────────┐
-│          CLI / main.cpp                 │  ← User Interface Layer
-├─────────────────────────────────────────┤
-│     InventoryManagementSystem           │  ← Manager Layer
-├─────────────────────────────────────────┤
-│         Warehouse (×9)                  │  ← Warehouse Layer
-├─────────────────────────────────────────┤
-│  Product / TaxableProduct               │
-│  DiscountProduct / BulkProduct          │  ← Domain Layer
-├─────────────────────────────────────────┤
-│      Order / OrderItem                  │  ← Concurrency Layer
-├─────────────────────────────────────────┤
-│          orders.txt                     │  ← Persistence Layer
-└─────────────────────────────────────────┘
-```
-
----
-
-## Features
-
-### Warehouse Operations
-- Add a new warehouse with a unique ID and province name
-- Remove an existing warehouse by ID
-- Display all warehouses in the system
-
-### Product Operations
-- Add a product to a warehouse (Taxable, Discount, or Bulk type)
-- Remove a product from a warehouse by product ID
-- Search for a product within a warehouse by ID
-- Display all products in a warehouse (sorted by product ID via `std::map`)
-- Sort products by **price** or **quantity** using `std::sort`
-
-### Order Processing
-- Load orders from `orders.txt` at runtime
-- Process **25 concurrent orders** using `std::thread`
-- Fulfil orders by safely reducing stock with mutex protection
-- Reject orders with `FAILED` status when stock is insufficient
-- Display thread ID, product ordered, warehouse, and outcome for every order
-
----
-
-## Class Structure
-
-```
-Product  (abstract base class)
-│   - productID, name, basePrice
-│   - calculateFinalPrice() [pure virtual]
-│   - display()
-│
-├── TaxableProduct
-│       - taxRate
-│       - calculateFinalPrice(): price × qty × (1 + taxRate)
-│
-├── DiscountProduct
-│       - discountRate
-│       - calculateFinalPrice(): price × qty × (1 − discountRate)
-│
-└── BulkProduct
-        - threshold, bulkDiscount
-        - calculateFinalPrice(): applies discount if qty >= threshold
-
-Warehouse
-    - warehouseID, location
-    - std::map<int, StockItem> inventory
-    - std::mutex inventoryMutex
-    - addProduct(), removeProduct(), decreaseStock()
-    - displayAllProducts(), searchProduct(), sortAndDisplay()
-
-InventoryManagementSystem
-    - std::vector<shared_ptr<Warehouse>> warehouses_
-    - std::mutex systemMutex_
-    - addWarehouse(), removeWarehouse(), findWarehouse()
-    - displayAllWarehouses(), processOrders()
-
-Order
-    - orderID, warehouseID
-    - std::vector<OrderItem> items_
-
-OrderItem
-    - productID, quantity
+```text
+StationaryHub-Inventory-System/
+├── CMakeLists.txt
+├── README.md
+├── .gitignore
+├── .vscode/                    # editor settings (ignored by git)
+├── src/
+│   ├── app/
+│   │   └── main.cpp
+│   ├── domain/
+│   │   ├── Product.cpp
+│   │   ├── TaxableProduct.cpp
+│   │   ├── DiscountProduct.cpp
+│   │   ├── BulkProduct.cpp
+│   │   └── Warehouse.cpp
+│   └── system/
+│       ├── InventoryManagementSystem.cpp
+│       ├── Order.cpp
+│       ├── OrderItem.cpp
+│       └── OrderGenerator.cpp
+├── include/
+│   ├── app/
+│   ├── domain/
+│   └── system/
+├── data/
+├── docs/
+├── tests/
+├── orders.txt
+├── build/                     # generated by CMake, ignored by git
+└── ...
 ```
 
----
-
-## Technologies Used
-
-| Technology | Purpose |
-|-----------|---------|
-| C++17 | Core programming language |
-| `std::thread` | Concurrent order processing |
-| `std::mutex` / `std::lock_guard` | Thread synchronization |
-| `std::shared_ptr` | Smart pointer memory management |
-| `std::map` | Product inventory storage per warehouse |
-| `std::vector` | Warehouse collection storage |
-| `std::sort` | Sorting products by price or quantity |
-| `std::find_if` | Warehouse lookup by ID |
-| Code::Blocks | IDE (GNU GCC Compiler) |
+The project is now configured to use a proper CMake build and does not need generated files committed to the repository. Build artifacts such as `build/`, `CMakeCache.txt`, `CMakeFiles/`, and `compile_commands.json` are ignored.
 
 ---
 
-## Getting Started
+## Prerequisites
 
-### Prerequisites
+### Required
 
-- **GNU GCC Compiler** (g++ with C++17 support)
-- **Code::Blocks IDE** (recommended) or any C++17-compatible compiler
-- Windows, Linux, or macOS
+- CMake 3.16 or newer
+- C++ compiler with C++17 support
+  - Windows: MinGW-w64 or MSYS2 GCC
+  - Linux: GCC or Clang
+  - macOS: Xcode command line tools / Homebrew GCC
+- Git
 
-### Cloning the Repository
+### Recommended VS Code Extensions
+
+Install these in VS Code:
+
+- C/C++
+- CMake
+- CMake Tools
+
+Optional but useful:
+
+- C++ Extension Pack
+- Code Runner
+
+### Optional IDE
+
+- Code::Blocks with GCC compiler
+
+---
+
+## Running the Project in VS Code
+
+### 1. Open the repository folder
+
+Open the project folder in VS Code.
+
+### 2. Install required extensions
+
+Go to Extensions and install:
+
+- `ms-vscode.cpptools`
+- `ms-vscode.cmake-tools`
+- `twxs.cmake`
+
+### 3. Configure with CMake
+
+From VS Code Terminal:
 
 ```bash
-git clone https://github.com/Mbhele451/StationaryHub-Inventory-System.git
-cd StationaryHub-Inventory-System
+cmake -S . -B build
 ```
 
----
+Or use the VS Code command palette:
 
-## How to Run
+- `CMake: Configure`
+- Select a kit/compiler if prompted
 
-### Option A — Using Code::Blocks
-
-1. Open `StationaryHub.cbp` in Code::Blocks
-2. Click **Build → Build and Run** (or press `F9`)
-3. Ensure `orders.txt` is in the **same directory as the executable**
-
-### Option B — Using the Terminal (g++)
+### 4. Build the project
 
 ```bash
-g++ -std=c++17 -pthread -o StationaryHub \
-    Main.cpp \
-    Product.cpp \
-    TaxableProduct.cpp \
-    DiscountProduct.cpp \
-    BulkProduct.cpp \
-    Warehouse.cpp \
-    InventoryManagementSystem.cpp \
-    Order.cpp \
-    OrderItem.cpp \
-    OrderGenerator.cpp
-
-./StationaryHub
+cmake --build build
 ```
 
-> **Note:** The `-pthread` flag is required for `std::thread` on Linux/macOS.
+Or from the command palette:
+
+- `CMake: Build`
+
+### 5. Run the executable
+
+The binary is generated in:
+
+```text
+build/bin/StationaryHub
+```
+
+On Linux/macOS:
+
+```bash
+./build/bin/StationaryHub
+```
+
+On Windows:
+
+```powershell
+.\build\bin\StationaryHub.exe
+```
+
+> Important: `orders.txt` must be available in the working directory when the program runs, or the application may fail to load orders.
 
 ---
 
-## Menu Options
+## Running the Project from the Terminal
 
+```bash
+cmake -S . -B build
+cmake --build build
+./build/bin/StationaryHub
 ```
+
+If you are on Windows PowerShell:
+
+```powershell
+cmake -S . -B build
+cmake --build build
+.\build\bin\StationaryHub.exe
+```
+
+---
+
+## Running the Project in Code::Blocks
+
+### Option A: Use the included project file
+
+1. Open the project in Code::Blocks.
+2. Select the correct compiler (GCC / MinGW).
+3. Build the project using `Build -> Build and Run`.
+4. Make sure `orders.txt` is in the same folder as the executable when running.
+
+### Option B: Use CMake with Code::Blocks
+
+If the generated project file is not working correctly:
+
+1. Generate a Code::Blocks project with CMake:
+
+```bash
+cmake -S . -B build -G "CodeBlocks - Unix Makefiles"
+```
+
+or on Windows:
+
+```powershell
+cmake -S . -B build -G "CodeBlocks - MinGW Makefiles"
+```
+
+2. Open the generated project in Code::Blocks.
+
+> The project is designed to build with CMake, which is the preferred workflow for modern IDEs.
+
+---
+
+## Troubleshooting
+
+### 1. `g++` / compiler not found
+
+Problem:
+- Terminal says `g++: command not found`
+- VS Code says no compiler is configured
+
+Fix:
+- Install a C++ compiler and restart the terminal
+- On Linux:
+
+```bash
+sudo apt install build-essential
+```
+
+- On Windows:
+  - Install MinGW-w64 or MSYS2
+  - Add the compiler bin directory to `PATH`
+
+- On macOS:
+
+```bash
+xcode-select --install
+```
+
+---
+
+### 2. `cmake: command not found`
+
+Fix:
+- Install CMake from the official CMake website or package manager
+- Restart VS Code after installation
+
+Examples:
+
+```bash
+sudo apt install cmake
+```
+
+or on macOS with Homebrew:
+
+```bash
+brew install cmake
+```
+
+---
+
+### 3. IntelliSense errors in VS Code
+
+Problem:
+- Header files cannot be found
+- `No such file or directory`
+- IntelliSense complains about includes
+
+Fix:
+- Install the C/C++ extension
+- Reload the VS Code window
+- Ensure the project is opened at the repository root
+- Confirm the compiler is configured in VS Code
+- Use CMake configure/build so `compile_commands.json` gets generated automatically
+
+The project already sets CMake to generate compile commands:
+
+```cmake
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+```
+
+This helps VS Code IntelliSense and language servers understand the project correctly.
+
+---
+
+### 4. `orders.txt` not found at runtime
+
+Problem:
+- The program starts but immediately fails when loading orders
+
+Fix:
+- Run the executable from the project root or from a directory that contains `orders.txt`
+- Make sure the file exists in the repo root
+- If needed, copy it next to the built executable
+
+Example:
+
+```bash
+cp orders.txt build/bin/
+```
+
+Then run:
+
+```bash
+./build/bin/StationaryHub
+```
+
+---
+
+### 5. Build/compile errors after changing source files
+
+Problem:
+- CMake says the project cannot build
+
+Fix:
+- Run:
+
+```bash
+cmake -S . -B build
+cmake --build build
+```
+
+- Delete the `build/` folder if the configuration is stale:
+
+```bash
+rm -rf build
+```
+
+Then reconfigure.
+
+---
+
+### 6. Code::Blocks project errors
+
+Common causes:
+- Wrong compiler selected
+- Missing include directories
+- Wrong working directory
+
+Fix:
+- Set the compiler to GCC/MinGW
+- Confirm include paths include the `include` folder
+- Run from the project directory so `orders.txt` is found
+- Prefer the CMake workflow if Code::Blocks project files are outdated
+
+---
+
+### 7. VS Code says `cannot open source file` or `IntelliSense` is broken
+
+Fix:
+- Reopen the folder in VS Code
+- Ensure `src` and `include` are present in the workspace root
+- Run `CMake: Configure`
+- Reload the window after installing extensions
+
+---
+
+## Build Artifacts That Are Ignored
+
+The repository includes an updated `.gitignore` so these files are not tracked:
+
+```gitignore
+build/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+compile_commands.json
+Makefile
+.vscode/
+*.exe
+*.o
+*.a
+*.out
+*.depend
+*.layout
+```
+
+This keeps the repository clean and avoids committing generated build files.
+
+---
+
+## How the Program Works
+
+When the user selects the order-processing option, the system:
+
+1. Loads orders from `orders.txt`
+2. Spawns one thread per order
+3. Safely updates stock under mutex protection
+4. Prints the status of each order (`SUCCESS` or `FAILED`)
+5. Joins all threads before the program exits
+
+This demonstrates safe concurrent access to shared data and prevents inconsistent stock values.
+
+---
+
+## Example Menu
+
+```text
 *****************************************
 *   INVENTORY MANAGEMENT SYSTEM MENU   *
 *****************************************
@@ -224,114 +402,12 @@ g++ -std=c++17 -pthread -o StationaryHub \
 
 ---
 
-## Orders File Format
+## Notes
 
-Each line in `orders.txt` follows this format:
+- The recommended build approach is CMake.
+- Code::Blocks support is available, but the CMake workflow is the most reliable across platforms.
+- The project is structured for modern C++17 compilation with thread support.
 
-```
-orderID warehouseID productID quantity [productID quantity ...]
-```
-
-**Example:**
-```
-1 1 101 5 102 3       ← Order 1, Warehouse 1, buy 5x product 101 and 3x product 102
-2 1 101 8             ← Order 2, Warehouse 1, buy 8x product 101
-10 5 112 999          ← Order 10, Warehouse 5, request 999x product 112 (will FAIL)
-```
-
-The test file includes **25 orders** covering:
-- Standard successful fulfilment
-- Deliberate `FAILED` orders (quantity exceeds stock)
-- Race conditions (multiple threads targeting the same product)
-- Multi-item orders (multiple products per order)
-
----
-
-## Concurrency Design
-
-When option `7` is selected, the system:
-
-1. Reads all orders from `orders.txt` via `OrderGenerator::loadOrders()`
-2. Spawns **one `std::thread` per order** — all threads run simultaneously
-3. Each thread calls `warehouse->decreaseStock()` which:
-   - Acquires `inventoryMutex` via `std::lock_guard`
-   - Checks product existence and stock level
-   - Deducts stock atomically if sufficient, or rejects the order
-   - Releases the lock automatically when the guard goes out of scope
-4. A second `consoleMutex` protects `std::cout` so output is not scrambled
-5. The main thread calls `join()` on all threads before returning
-
-This design guarantees:
-- ✅ No race conditions
-- ✅ No deadlocks
-- ✅ Stock never goes negative
-- ✅ Visible interleaved thread output confirming concurrent execution
-
----
-
-## Memory Management
-
-The system uses **zero raw pointers**. All dynamic objects are managed through `std::shared_ptr`:
-
-| Object | Pointer Type | Reason |
-|--------|-------------|--------|
-| `Product` (and derived) | `shared_ptr<Product>` | Shared between warehouse inventory and order processing |
-| `Warehouse` | `shared_ptr<Warehouse>` | Contains a `std::mutex` — cannot be copied, must be shared |
-| `Order` | `shared_ptr<Order>` | Accessed by multiple threads simultaneously |
-
-When `main()` exits, all `shared_ptr` reference counts reach zero and every object is destroyed automatically — no memory leaks.
-
----
-
-## Project Structure
-
-```
-StationaryHub-Inventory-System/
-│
-├── Main.cpp
-├── Product.h / Product.cpp
-├── TaxableProduct.h / TaxableProduct.cpp
-├── DiscountProduct.h / DiscountProduct.cpp
-├── BulkProduct.h / BulkProduct.cpp
-├── Warehouse.h / Warehouse.cpp
-├── InventoryManagementSystem.h / InventoryManagementSystem.cpp
-├── Order.h / Order.cpp
-├── OrderItem.h / OrderItem.cpp
-├── OrderGenerator.h / OrderGenerator.cpp
-├── orders.txt
-├── .gitignore
-└── README.md
-```
-## Sample Output
-Processing orders from file: orders.txt
-
-Processing Order ID: 1 | Thread ID: 8670141377090704656 at Warehouse Gauteng
-  [SUCCESS] Product ID: 101 | Qty: 5
-  [SUCCESS] Product ID: 102 | Qty: 3
-
-Processing Order ID: 2 | Thread ID: 18137369640724998020 at Warehouse Gauteng
-  [SUCCESS] Product ID: 101 | Qty: 8
-  [SUCCESS] Product ID: 103 | Qty: 10
-
-Processing Order ID: 3 | Thread ID: 1230235464250880600 at Warehouse Western Cape
-  [SUCCESS] Product ID: 104 | Qty: 5
-  [SUCCESS] Product ID: 105 | Qty: 2
-  
-Processing Order ID: 14 | Thread ID: 17519169083552770373 at Warehouse Mpumalanga
-  [FAILED]  Product ID: 115 | Qty: 999 (Insufficient stock or missing)
-
-Processing Order ID: 15 | Thread ID: 7878728155988826942 at Warehouse North West
-  [FAILED]  Product ID: 101 | Qty: 10 (Insufficient stock or missing)
-  [SUCCESS] Product ID: 102 | Qty: 20
-
-Processing Order ID: 17 | Thread ID: 12034445389369918683 at Warehouse Northern Cape
-  [SUCCESS] Product ID: 107 | Qty: 5
-  [SUCCESS] Product ID: 109 | Qty: 80
-
-Processing Order ID: 18 | Thread ID: 3834309123136518406 at Warehouse Northern Cape
-  [FAILED]  Product ID: 107 | Qty: 999 (Insufficient stock or missing)
-  
-Orders processed successfully!
 ---
 
 > COMP315 — University of KwaZulu-Natal | 2026
