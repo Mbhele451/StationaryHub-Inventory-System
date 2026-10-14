@@ -6,3 +6,23 @@
 *.layout
 .DS_Store
 Thumbs.db
+
+# CMake build files and generated artifacts
+/build/
+/build/*
+/build/CMakeCache.txt
+/build/CMakeFiles/
+/build/bin/
+/build/cmake_install.cmake
+CMakeCache.txt
+CMakeFiles/
+compile_commands.json
+cmake_install.cmake
+Makefile
+
+# IDE/editor
+.vscode/
+*.cbp.user
+
+# Misc
+__MACOSX/
