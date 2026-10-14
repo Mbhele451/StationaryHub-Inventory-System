@@ -132,20 +132,6 @@ cmake --build build
 
 Screenshots & step-by-step (recommended)
 
-- Add the following screenshots to `docs/images/` and commit them to the repo if you want visual help:
-  - `docs/images/vscode-select-kit.png` — show the kit selection menu in the status bar.
-  - `docs/images/vscode-cmake-configure.png` — show the command palette `CMake: Configure` running.
-  - `docs/images/vscode-cmake-build.png` — show the `CMake: Build` progress.
-  - `docs/images/vscode-debug-launch.png` — example of the Run/Debug configuration selection.
-
-Example screenshot markdown (placeholders):
-
-![Select CMake Kit](docs/images/vscode-select-kit.png)
-
-![CMake Configure](docs/images/vscode-cmake-configure.png)
-
-If you want, I can make and add these screenshots for you; you will need to provide them or allow me to generate them locally and upload (requires push of image files).
-
 Run/Debug configuration (optional)
 
 To enable running the built executable from VS Code's Run view, add a simple `launch.json` entry in `.vscode/launch.json`:
